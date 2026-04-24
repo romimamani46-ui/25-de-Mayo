@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unidad Educativa 25 de Mayo</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rosa:      #e91e8c;
+      --rosa-claro:#ff6ec7;
+      --magenta:   #c2006e;
+      --lila:      #f3c6e8;
+      --crema:     #fff5fb;
+      --oscuro:    #1a0a14;
+      --gris:      #5a3a50;
+      --blanco:    #ffffff;
+      --grad: linear-gradient(135deg, #e91e8c 0%, #ff6ec7 50%, #c850c0 100%);
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--oscuro);
+      color: var(--crema);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* CURSOR */
+    #cursor {
+      width: 14px; height: 14px;
+      background: var(--rosa);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9999;
+      mix-blend-mode: multiply;
+    }
+    #cursor-ring {
+      width: 38px; height: 38px;
+      border: 2px solid var(--rosa-claro);
+      border-radius: 50%;
+      position: fixed; top: 0; left: 0;
+      pointer-events: none; z-index: 9998;
+      opacity: 0.6;
+    }
+
+    /* PARTÍCULAS */
+    .particles { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .particle {
+      position: absolute; border-radius: 50%; opacity: 0.12;
+      animation: floatP linear infinite;
+    }
+    @keyframes floatP {
+      0%   { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.12; }
+      90%  { opacity: 0.12; }
+      100% { transform: translateY(-120px) rotate(720deg); opacity: 0; }
+    }
+
+    /* HEADER */
+    header {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      background: var(--oscuro);
+      text-align: center; padding: 60px 20px;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 50%, rgba(233,30,140,.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 80% at 80% 40%, rgba(200,80,192,.25) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 50% at 50% 100%, rgba(255,110,199,.15) 0%, transparent 50%);
+    }
+    .orbs { position: absolute; inset: 0; pointer-events: none; }
+    .orb {
+      position: absolute; border-radius: 50%;
+      filter: blur(60px); opacity: .4;
+      animation: orbP ease-in-out infinite alternate;
+    }
+    .o1{width:400px;height:400px;background:var(--rosa);top:-100px;left:-100px;animation-duration:6s;}
+    .o2{width:300px;height:300px;background:#c850c0;bottom:-80px;right:-80px;animation-duration:8s;animation-delay:-3s;}
+    .o3{width:200px;height:200px;background:var(--rosa-claro);top:50%;left:50%;transform:translate(-50%,-50%);animation-duration:5s;animation-delay:-1s;}
+    @keyframes orbP {
+      from { transform: scale(1) translate(0,0); }
+      to   { transform: scale(1.15) translate(10px,-10px); }
+    }
+    .h-content { position: relative; z-index: 2; }
+    .escudo-wrap {
+      width:110px;height:110px;
+      background:rgba(255,255,255,.08);
+      border:2px solid rgba(255,255,255,.2);
+      border-radius:50%;
+      display:flex;align-items:center;justify-content:center;
+      font-size:3rem;
+      margin: 0 auto 28px;
+      backdrop-filter:blur(12px);
+      animation: glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 30px rgba(233,30,140,.4); }
+      to   { box-shadow: 0 0 70px rgba(233,30,140,.9), 0 0 120px rgba(255,110,199,.3); }
+    }
+    .badge {
+      display:inline-block;
+      background:rgba(233,30,140,.15);
+      border:1px solid rgba(233,30,140,.35);
+      color:var(--rosa-claro);
+      font-size:.7rem; letter-spacing:4px; text-transform:uppercase;
+      padding:6px 18px; border-radius:20px; margin-bottom:20px;
+      backdrop-filter:blur(8px);
+    }
+    header h1 {
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(2.6rem,7vw,5rem);
+      font-weight:700; color:var(--blanco);
+      line-height:1.1; letter-spacing:-1px;
+      text-shadow:0 0 40px rgba(233,30,140,.5);
+      animation:fadeUp 1s ease both;
+    }
+    .grad-txt {
+      background:var(--grad);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      background-clip:text; display:block;
+    }
+    header .sub {
+      margin-top:14px; font-size:1rem;
+      color:rgba(255,255,255,.5);
+      letter-spacing:2px; text-transform:uppercase;
+      animation:fadeUp 1s ease .2s both;
+    }
+    @keyframes fadeUp {
+      from{opacity:0;transform:translateY(30px);}
+      to{opacity:1;transform:translateY(0);}
+    }
+    .scroll-hint {
+      position:absolute;bottom:30px;left:50%;transform:translateX(-50%);
+      color:rgba(255,255,255,.3);font-size:.72rem;letter-spacing:3px;
+      text-transform:uppercase;display:flex;flex-direction:column;
+      align-items:center;gap:8px;
+      animation:bounce 2s ease-in-out infinite;
+    }
+    .scroll-hint::after{content:'↓';font-size:1.2rem;color:var(--rosa-claro);}
+    @keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0);}50%{transform:translateX(-50%) translateY(8px);}}
+
+    /* NAV */
+    nav {
+      position:sticky;top:0;z-index:100;
+      background:rgba(26,10,20,.88);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(233,30,140,.2);
+      display:flex;justify-content:center;flex-wrap:wrap;
+    }
+    nav a {
+      color:rgba(255,255,255,.55);text-decoration:none;
+      font-size:.78rem;font-weight:500;letter-spacing:2px;
+      text-transform:uppercase;padding:16px 22px;
+      position:relative;transition:color .2s;
+    }
+    nav a::after {
+      content:'';position:absolute;bottom:0;left:50%;right:50%;
+      height:2px;background:var(--grad);transition:left .3s,right .3s;
+    }
+    nav a:hover{color:var(--blanco);}
+    nav a:hover::after{left:15%;right:15%;}
+
+    /* SECCIONES */
+    .sec{max-width:1000px;margin:0 auto;padding:80px 30px;}
+    .sec-lbl{font-size:.7rem;letter-spacing:4px;text-transform:uppercase;color:var(--rosa);font-weight:600;margin-bottom:10px;}
+    .sec-tit{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,4vw,2.8rem);font-weight:700;line-height:1.15;margin-bottom:40px;}
+    .sec-tit span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    .sep{width:100%;height:1px;background:linear-gradient(90deg,transparent,rgba(233,30,140,.2),transparent);}
+
+    /* UBICACIÓN */
+    .card-ubi {
+      background:var(--blanco);border-radius:24px;padding:40px;
+      box-shadow:0 8px 40px rgba(233,30,140,.08);
+      border:1px solid rgba(233,30,140,.12);
+      display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;
+      position:relative;overflow:hidden;
+    }
+    .card-ubi::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--grad);}
+    .ubi-item{display:flex;flex-direction:column;gap:5px;}
+    .ubi-item .ico{font-size:1.6rem;margin-bottom:4px;}
+    .ubi-item .key{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:var(--rosa);font-weight:600;}
+    .ubi-item .val{font-size:1rem;color:var(--oscuro);font-weight:500;}
+
+    /* FOTOS */
+    .galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;}
+    .foto-marco {
+      aspect-ratio:4/3;border-radius:18px;overflow:hidden;position:relative;
+      background:linear-gradient(135deg,#fce4f3,#f8c8e8);
+      border:2px dashed rgba(233,30,140,.25);
+      display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;
+      color:var(--rosa);font-size:.8rem;
+      transition:transform .3s ease,box-shadow .3s ease;
+    }
+    .foto-marco:hover{transform:translateY(-6px) scale(1.02);box-shadow:0 20px 40px rgba(233,30,140,.2);}
+    .foto-marco .f-ico{font-size:2rem;opacity:.5;}
+    .foto-marco img{width:100%;height:100%;object-fit:cover;border:none;}
+
+    /* STATS */
+    .stats-row{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:40px;}
+    .stat-card {
+      flex:1;min-width:130px;background:var(--oscuro);border-radius:20px;
+      padding:28px 24px;text-align:center;position:relative;overflow:hidden;
+      transition:transform .3s;
+    }
+    .stat-card::before{content:'';position:absolute;inset:0;background:var(--grad);opacity:.12;}
+    .stat-card:hover{transform:translateY(-5px);}
+    .stat-card .n{font-family:'Cormorant Garamond',serif;font-size:3rem;font-weight:700;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+    .stat-card .l{font-size:.72rem;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.5);margin-top:6px;}
+
+    /* TABLA */
+    .tabla-wrap{background:var(--blanco);border-radius:20px;overflow:hidden;box-shadow:0 4px 30px rgba(233,30,140,.07);border:1px solid rgba(233,30,140,.1);}
+    table{border-collapse:collapse;width:100%;}
+    th{background:var(--oscuro);color:rgba(255,255,255,.7);font-size:.72rem;letter-spacing:2px;text-transform:uppercase;padding:16px 20px;text-align:left;}
+    td{padding:14px 20px;border-bottom:1px solid #f5eaf2;font-size:.95rem;}
+    tr:last-child td{border-bottom:none;}
+    tr:hover td{background:#fff0f9;}
+    .cb{display:inline-block;background:linear-gradient(135deg,rgba(233,30,140,.1),rgba(200,80,192,.1));border:1px solid rgba(233,30,140,.2);color:var(--magenta);border-radius:8px;padding:4px 12px;font-size:.85rem;font-weight:600;}
+
+    /* MATERIAS */
+    .materias-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:14px;}
+    .mat-card {
+      background:var(--blanco);border:1px solid rgba(233,30,140,.1);
+      border-radius:18px;padding:24px 18px;text-align:center;
+      transition:all .3s ease;position:relative;overflow:hidden;
+    }
+    .mat-card::before{content:'';position:absolute;inset:0;background:var(--grad);opacity:0;transition:opacity .3s;}
+    .mat-card:hover{transform:translateY(-7px);box-shadow:0 16px 40px rgba(233,30,140,.18);border-color:var(--rosa);}
+    .mat-card:hover::before{opacity:.06;}
+    .mat-ico{font-size:2.4rem;margin-bottom:10px;display:block;transition:transform .3s;}
+    .mat-card:hover .mat-ico{transform:scale(1.2) rotate(-6deg);}
+    .mat-nom{font-size:.85rem;font-weight:600;color:var(--oscuro);line-height:1.3;position:relative;z-index:1;}
+
+    /* FOOTER */
+    footer{background:var(--oscuro);color:rgba(255,255,255,.5);text-align:center;padding:50px 20px;position:relative;overflow:hidden;}
+    footer::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--grad);}
+    .f-nom{font-family:'Cormorant Garamond',serif;font-size:1.6rem;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:8px;}
+    .f-sub{font-size:.8rem;letter-spacing:2px;text-transform:uppercase;opacity:.4;}
+
+    /* REVEAL */
+    .reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+
+    @media(max-width:600px){.sec{padding:60px 20px;}.card-ubi{padding:28px 22px;}}
+  </style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="particles" id="particles"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="orbs">
+    <div class="orb o1"></div>
+    <div class="orb o2"></div>
+    <div class="orb o3"></div>
+  </div>
+  <div class="h-content">
+    <div class="escudo-wrap">🌸</div>
+    <div class="badge">✦ Año Escolar 2026 ✦</div>
+    <h1>
+      Unidad Educativa
+      <span class="grad-txt">25 de Mayo</span>
+    </h1>
+    <p class="sub">Nivel Secundario — Sopachuy, Chuquisaca</p>
+  </div>
+  <div class="scroll-hint">Explorar</div>
+</header>
+
+<nav>
+  <a href="#ubicacion">Ubicación</a>
+  <a href="#fotos">Fotos</a>
+  <a href="#cursos">Cursos</a>
+  <a href="#materias">Materias</a>
+</nav>
+
+<!-- UBICACIÓN -->
+<section class="sec reveal" id="ubicacion">
+  <p class="sec-lbl">✦ Dónde estamos</p>
+  <h2 class="sec-tit">Nuestra <span>Ubicación</span></h2>
+  <div class="card-ubi">
+    <div class="ubi-item"><span class="ico">📍</span><span class="key">Dirección</span><span class="val">Calle 2 de Agosto</span></div>
+    <div class="ubi-item"><span class="ico">🏘️</span><span class="key">Ciudad</span><span class="val">Sopachuy, Bolivia</span></div>
+    <div class="ubi-item"><span class="ico">🗺️</span><span class="key">Departamento</span><span class="val">Chuquisaca</span></div>
+    <div class="ubi-item"><span class="ico">✉️</span><span class="key">Correo</span><span class="val">unidad.educativa@ejemplo.bo</span></div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- FOTOS -->
+<section class="sec reveal" id="fotos">
+  <p class="sec-lbl">✦ Galería</p>
+  <h2 class="sec-tit">Fotos del <span>Colegio</span></h2>
+  <div class="galeria">
+    <div class="foto-marco"><img src="foto1.jpg"  alt="Foto 1"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto2.jpg"  alt="Foto 2"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto3.jpg"  alt="Foto 3"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto4.jpg"  alt="Foto 4"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto5.jpg"  alt="Foto 5"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto6.jpg"  alt="Foto 6"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto7.jpg"  alt="Foto 7"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto8.jpg"  alt="Foto 8"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto9.jpg"  alt="Foto 9"  onerror="this.style.display='none'"></div>
+    <div class="foto-marco"><img src="foto10.jpg" alt="Foto 10" onerror="this.style.display='none'"></div>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- CURSOS -->
+<section class="sec reveal" id="cursos">
+  <p class="sec-lbl">✦ Estructura académica</p>
+  <h2 class="sec-tit">Cursos y <span>Paralelos</span></h2>
+  <div class="stats-row">
+    <div class="stat-card"><div class="n">6</div><div class="l">Cursos</div></div>
+    <div class="stat-card"><div class="n">8</div><div class="l">Paralelos</div></div>
+    <div class="stat-card"><div class="n">218</div><div class="l">Estudiantes</div></div>
+  </div>
+  <div class="tabla-wrap">
+    <table>
+      <tr><th>Curso</th><th>Paralelos</th><th>N° Estudiantes</th></tr>
+      <tr><td><span class="cb">1ro</span> de Secundaria</td><td>A, B</td><td>60</td></tr>
+      <tr><td><span class="cb">2do</span> de Secundaria</td><td>A, B</td><td>75</td></tr>
+      <tr><td><span class="cb">3ro</span> de Secundaria</td><td>A</td><td>30</td></tr>
+      <tr><td><span class="cb">4to</span> de Secundaria</td><td>A</td><td>22</td></tr>
+      <tr><td><span class="cb">5to</span> de Secundaria</td><td>A</td><td>26</td></tr>
+      <tr><td><span class="cb">6to</span> de Secundaria</td><td>A</td><td>28</td></tr>
+    </table>
+  </div>
+</section>
+<div class="sep"></div>
+
+<!-- MATERIAS -->
+<section class="sec reveal" id="materias">
+  <p class="sec-lbl">✦ Plan de estudios</p>
+  <h2 class="sec-tit">Materias que <span>se imparten</span></h2>
+  <div class="materias-grid">
+    <div class="mat-card"><span class="mat-ico">⚽</span><span class="mat-nom">Educación Física</span></div>
+    <div class="mat-card"><span class="mat-ico">📖</span><span class="mat-nom">Lenguaje y Comunicación</span></div>
+    <div class="mat-card"><span class="mat-ico">🌍</span><span class="mat-nom">Ciencias Sociales</span></div>
+    <div class="mat-card"><span class="mat-ico">🎵</span><span class="mat-nom">Educación Musical</span></div>
+    <div class="mat-card"><span class="mat-ico">🧬</span><span class="mat-nom">Biología</span></div>
+    <div class="mat-card"><span class="mat-ico">🎨</span><span class="mat-nom">Artes Plásticas</span></div>
+    <div class="mat-card"><span class="mat-ico">🔢</span><span class="mat-nom">Matemáticas</span></div>
+    <div class="mat-card"><span class="mat-ico">🇬🇧</span><span class="mat-nom">Inglés</span></div>
+    <div class="mat-card"><span class="mat-ico">✝️</span><span class="mat-nom">Religión</span></div>
+    <div class="mat-card"><span class="mat-ico">💭</span><span class="mat-nom">Filosofía</span></div>
+    <div class="mat-card"><span class="mat-ico">⚡</span><span class="mat-nom">Física</span></div>
+    <div class="mat-card"><span class="mat-ico">🧪</span><span class="mat-nom">Química</span></div>
+    <div class="mat-card"><span class="mat-ico">💻</span><span class="mat-nom">Sistemas Informáticos</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-nom">Adriana Duran</div>
+  <div class="f-sub">5to "A" — Unidad Educativa 25 de Mayo · 2025</div>
+</footer>
+
+<script>
+  // Cursor personalizado
+  const cur = document.getElementById('cursor');
+  const ring = document.getElementById('cursor-ring');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{
+    mx=e.clientX; my=e.clientY;
+    cur.style.left=(mx-7)+'px'; cur.style.top=(my-7)+'px';
+  });
+  (function loop(){
+    rx+=(mx-rx-19)*.12; ry+=(my-ry-19)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(loop);
+  })();
+
+  // Partículas flotantes
+  const pc=document.getElementById('particles');
+  const cols=['#e91e8c','#ff6ec7','#c850c0','#f3c6e8','#ff9de2'];
+  for(let i=0;i<22;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    const s=Math.random()*18+6;
+    p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;background:${cols[Math.floor(Math.random()*5)]};animation-duration:${Math.random()*18+12}s;animation-delay:${Math.random()*-20}s;`;
+    pc.appendChild(p);
+  }
+
+  // Scroll reveal
+  const obs=new IntersectionObserver(es=>{
+    es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);}});
+  },{threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+</script>
+</body>
+</html>
